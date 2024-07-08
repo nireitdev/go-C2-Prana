@@ -10,7 +10,7 @@ Part of a long process of studying and researching in cybersecurity.
 
 ## Todo:
 - Golang
-- Grpc communications between Inplman<->Server<->Admin
+- Grpc communications between Inplant<->Server<->Admin
 - mTLS
 - Implant focuses for windows. Server/Admin for Linux
 - Api rest for Admin
