@@ -14,6 +14,6 @@ Part of a long process of studying and researching in cybersecurity.
 - mTLS
 - Implant focuses for windows. Server/Admin for Linux
 - Api rest for Admin
-- Modules por Implant: keylogger, screencaptura
+- Modules por Implant: keylogger, screencapture
 - Web UI??
 - etc..
