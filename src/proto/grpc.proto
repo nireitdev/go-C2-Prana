@@ -1,0 +1,38 @@
+syntax = "proto3";
+option go_package="github.dev/nireitdev/go-C2-Prana/proto";
+
+//Comandos de Admin/Implant hacia Server
+service Server{
+	rpc AdminCmd( AdminRequest ) returns ( AdminResult );
+	//PullCommand for Implant
+	rpc ImplantCmd( ImplantRequest) returns ( ImplantResult );
+}
+
+//Server "push" comandos hacia Implant
+service PushCommand{
+	rpc PushCmd( PushRequest) returns (PushResult);
+}
+
+message AdminRequest {
+	string Request = 1;
+}
+
+message AdminResult {
+string Result = 1;
+}
+
+message ImplantRequest {
+string Request = 1;
+}
+
+message ImplantResult {
+string Result = 1;
+}
+
+message PushRequest {
+	string Request = 1;
+}
+
+message PushResult {
+	string Result = 1;
+}
