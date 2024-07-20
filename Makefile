@@ -1,7 +1,4 @@
 
-
-
-
 BINDIR := bin
 BINARIOS := admin implant server
 

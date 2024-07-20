@@ -18,15 +18,15 @@ message AdminRequest {
 }
 
 message AdminResult {
-string Result = 1;
+	string Result = 1;
 }
 
 message ImplantRequest {
-string Request = 1;
+	string Request = 1;
 }
 
 message ImplantResult {
-string Result = 1;
+	string Result = 1;
 }
 
 message PushRequest {
