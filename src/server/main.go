@@ -5,9 +5,7 @@ import (
 	"fmt"
 	"github.dev/nireitdev/go-C2-Prana/proto"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
-	"google.golang.org/grpc/status"
 	"log"
 	"net"
 )
@@ -20,12 +18,14 @@ type Server struct {
 
 func (s Server) AdminCmd(ctx context.Context, req *proto.AdminRequest) (*proto.AdminResult, error) {
 	//return nil, status.Errorf(codes.Unimplemented, "method ImplantCmd not implemented")
-	log.Println("Recibido: ", req.Request)
+	log.Println("Recibido: ", "Hola Admin!")
 	res := proto.AdminResult{Result: req.Request}
 	return &res, nil
 }
-func (s Server) ImplantCmd(context.Context, *proto.ImplantRequest) (*proto.ImplantResult, error) {
-	return nil, status.Errorf(codes.PermissionDenied, "method ImplantCmd not implemented")
+func (s Server) ImplantCmd(ctx context.Context, req *proto.ImplantRequest) (*proto.ImplantResult, error) {
+	log.Println("Recibido desde Implant: ", req.Request)
+	res := proto.ImplantResult{Result: "Hola Implant!"}
+	return &res, nil
 }
 
 func main() {

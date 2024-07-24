@@ -12,7 +12,7 @@ func main() {
 	log.Println("Connectando con el servidor...")
 
 	opts := grpc.DialOption(grpc.WithTransportCredentials(insecure.NewCredentials()))
-	conn, err := grpc.Dial("localhost:3000", opts)
+	conn, err := grpc.NewClient("localhost:3000", opts)
 	if err != nil {
 		log.Fatalln("Imposible conectar con el servidor. Bye!")
 	}
