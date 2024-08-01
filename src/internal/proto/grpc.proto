@@ -3,10 +3,10 @@ option go_package="github.dev/nireitdev/go-C2-Prana/proto";
 
 //Comandos de Admin/Implant hacia Server
 service Server{
-	rpc AdminCmd( AdminRequest ) returns ( AdminResult );
+	rpc AdminTask( TaskRequest ) returns ( TaskResult );
 
 	//Implant cmds:
-	rpc ImplantCmd( ImplantRequest) returns ( ImplantResult );
+	rpc ImplantTask( ImplantRequest) returns ( ImplantResult );
 	rpc ImplantAlive(AliveMsg) returns (Empty);
 }
 
@@ -15,13 +15,6 @@ service PushCommand{
 	rpc PushCmd( PushRequest) returns (PushResult);
 }
 
-message AdminRequest {
-	string Request = 1;
-}
-
-message AdminResult {
-	string Result = 1;
-}
 
 message ImplantRequest {
 	string Request = 1;
@@ -45,6 +38,23 @@ message AliveMsg{
 	string OS = 3;
 }
 
+message TaskRequest{
+	string TaskID =1 ;
+	string ImplantID =2;
+	string Command  =3;
+}
+
+message TaskResult{
+	string TaskID =1 ;
+	TaskStatus Status = 2;
+	string Result  =3;
+}
+
+enum TaskStatus{
+	NEWTASKOK = 0;
+	IMPLANTRESPONSEOK = 1;
+	IMPLANTLOST = 2;
+}
 message Empty{
 
 }
