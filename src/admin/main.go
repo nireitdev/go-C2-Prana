@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"github.dev/nireitdev/go-C2-Prana/admin/api"
 	"github.dev/nireitdev/go-C2-Prana/internal/Task"
 	proto2 "github.dev/nireitdev/go-C2-Prana/internal/proto"
@@ -15,6 +16,13 @@ import (
 	"time"
 )
 
+var (
+	SERVERIP    = "127.0.0.1"
+	SERVERPORT  = "3000"
+	APIRESTIP   = "127.0.0.1"
+	APIRESTPORT = "8080"
+)
+
 func main() {
 
 	logger := slog.New(slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{Level: slog.LevelDebug}))
@@ -24,9 +32,10 @@ func main() {
 	chanTask := make(chan Task.Task)
 
 	//Start GRPC coneccion
-	slog.Info("Iniciando conexion Servidor...")
 	opts := grpc.DialOption(grpc.WithTransportCredentials(insecure.NewCredentials()))
-	conn, err := grpc.NewClient("localhost:3000", opts)
+	addr := fmt.Sprintf("%s:%s", SERVERIP, SERVERPORT)
+	slog.Info("Iniciando conexion Servidor...", "addr", addr)
+	conn, err := grpc.NewClient(addr, opts)
 	if err != nil {
 		slog.Error("Imposible conectar con el servidor. Bye!")
 		os.Exit(1)
@@ -36,8 +45,9 @@ func main() {
 
 	//Start Api REST
 	go func() {
-		slog.Info("Iniciando API..")
-		server := api.NewApiRest("0.0.0.0:8080", chanTask, TaskList)
+		addr := fmt.Sprintf("%s:%s", APIRESTIP, APIRESTPORT)
+		slog.Info("Iniciando API..", "addr", addr)
+		server := api.NewApiRest(addr, chanTask, TaskList)
 		server.Run(context.Background())
 	}()
 

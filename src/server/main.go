@@ -14,6 +14,11 @@ import (
 	"os"
 )
 
+var (
+	SERVERIP   = "127.0.0.1"
+	SERVERPORT = "3000"
+)
+
 type Server struct {
 	listen   string
 	implants map[string]Implant
@@ -121,8 +126,8 @@ func main() {
 	}
 
 	go srv.tasklist.PrintTaskListInfo()
-
-	srv.listen = fmt.Sprintf("%s:%s", "0.0.0.0", "3000") //TODO: read from env or config!!
+	srv.listen = fmt.Sprintf("%s:%s", SERVERIP, SERVERPORT)
+	slog.Info("Iniciando conexion Servidor...", "addr", srv.listen)
 	listen, err := net.Listen("tcp", srv.listen)
 	if err != nil {
 		log.Fatalln("Imposible crear listener")
